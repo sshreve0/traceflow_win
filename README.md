@@ -1,6 +1,6 @@
 # TraceflowWin
 
-**Cross-platform traceroute tool** that supports **multi-path probing** based on the functionality of rucarrol's traceflow.
+**Cross-platform traceroute tool** that supports **multi-path probing** based on the functionality of rucarrol's traceflow, does not have the visual.
 
 **Rucarrol's Traceflow**: https://github.com/rucarrol/traceflow
 

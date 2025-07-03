@@ -13,8 +13,6 @@ TARGETS = [
     "169.252.21.61"
 ]
 
-
-
 def isip(ip):
     print(ip)
     try:
@@ -37,7 +35,7 @@ def get_domain_info(ip):
 
 async def test():
     for ip in TARGETS:
-        tracer = TraceflowWin(ip)
+        tracer = TraceflowWin(ip, path_count=1)
         results = await tracer.run()
         for path_id, hops in results.items():
             for hop in hops:
