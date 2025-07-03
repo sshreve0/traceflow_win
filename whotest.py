@@ -1,11 +1,9 @@
 import asyncio
 import ipaddress
-import json
-from pprint import pprint
 
 from ipwhois import IPWhois, IPDefinedError
 
-from src.traceflow_win import TraceflowWin
+from traceflow_win import TraceflowWin
 
 
 TARGETS = [
