@@ -6,7 +6,6 @@
 
 Works on **Linux** without dependencies  
 Requires **Npcap** on **Windows**: [https://npcap.com/#download](https://npcap.com/#download)
-
 ---
 
 ## Python Example
@@ -50,3 +49,6 @@ python -m traceflow_win 1.1.1.1 --path-count 5 --max-hops 40
 | `--max-hops`          | Maximum number of hops                     | `30`       |
 | `--timeout`           | Timeout per hop in seconds                 | `2`        |
 | `-h, --help`          | Show help message                          |            |
+
+## Notes/Known Problems:
+- High path counts (8-10 and above) can result in trace errors as scapy sniff() is not asynchronous.
