@@ -5,7 +5,7 @@ from pprint import pprint
 
 from ipwhois import IPWhois, IPDefinedError
 
-from traceflow_win import TraceflowWin
+from src.traceflow_win import TraceflowWin
 
 
 TARGETS = [
@@ -22,7 +22,7 @@ def isip(ip):
     try:
         ipaddress.ip_address(ip)
         return True
-    except Exception:
+    except ValueError:
         return False
 
 def get_domain_info(ip):
@@ -39,13 +39,11 @@ def get_domain_info(ip):
 
 async def test():
     for ip in TARGETS:
-        tracer = TraceflowWin(ip,4)
+        tracer = TraceflowWin(ip)
         results = await tracer.run()
         for path_id, hops in results.items():
-            print(f"Path {path_id}: {hops}")
             for hop in hops:
                 if isip(hop):
-                    print(f"HOP: {hop}")
                     res = get_domain_info(hop)
                     print(res)
 

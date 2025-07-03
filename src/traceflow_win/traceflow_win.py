@@ -6,18 +6,20 @@ import dns.resolver
 
 from scapy.all import sr1
 from scapy.layers.inet import IP, ICMP
+from scapy.all import conf
+conf.use_pcap = True
 
 
-def isip(ip):
+async def isip(ip):
     try:
         ipaddress.ip_address(ip)
         return True
-    except Exception:
+    except ValueError:
         return False
 
 
 class TraceflowWin:
-    def __init__(self, destination: str, path_count: int, max_hops=30, timeout=2.0):
+    def __init__(self, destination: str, path_count: int = 4, max_hops: int = 30, timeout: int = 2):
         self.destination = destination
         self.max_hops = max_hops
         self.timeout = timeout
@@ -46,9 +48,9 @@ class TraceflowWin:
             self.results[path_id][ttl - 1] = "*"
 
     async def run(self):
-        if not isip(self.destination):
-            resolved = dns.resolver.resolve(self.destination)
+        if not await isip(self.destination):
             resolvedip = ""
+            resolved = dns.resolver.resolve(self.destination)
             for rdata in resolved:
                 resolvedip = str(rdata)
             print(f"Resolved {self.destination} to {resolvedip}\n")
@@ -61,18 +63,18 @@ class TraceflowWin:
         for ttl in range(1, self.max_hops + 1):
             active_path_ids = [pid for pid in range(1, self.path_count + 1) if pid not in self.stopped_paths]
             if not active_path_ids:
-                break  # All paths done
+                break
 
             tasks = [self.probe(pid, ttl, loop) for pid in active_path_ids]
             await asyncio.gather(*tasks)
 
-        # Trim results to the actual TTL reached for each path
-        for path_id in self.results:
-            if path_id in self.stopped_paths:
-                # Trim all trailing entries after destination was reached
-                trace = self.results[path_id]
-                cutoff = trace.index(self.destination) + 1
-                self.results[path_id] = trace[:cutoff]
+        for path_id, trace in self.results.items():
+            for i in range(len(trace) - 1, -1, -1):
+                if trace[i] != "*":
+                    self.results[path_id] = trace[:i + 1]
+                    break
+            else:
+                self.results[path_id] = []
 
         return dict(self.results)
 
