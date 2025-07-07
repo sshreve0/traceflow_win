@@ -19,6 +19,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    #package_data={"": ["var/*.html"]},
     entry_points={"console_scripts": ["traceflow-win=traceflow_win.__main__:main"]},
 )
