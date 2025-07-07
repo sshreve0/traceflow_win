@@ -55,8 +55,8 @@ class TraceflowWin:
                 resolvedip = str(rdata)
             print(f"Resolved {self.destination} to {resolvedip}\n")
             self.destination = resolvedip
-        else:
-            print(f"Tracing to: {self.destination}\n")
+
+        print(f"Tracing to: {self.destination}\n")
 
         loop = asyncio.get_running_loop()
 

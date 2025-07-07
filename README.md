@@ -1,11 +1,14 @@
 # TraceflowWin
 
-**Cross-platform traceroute tool** that supports **multi-path probing** based on the functionality of rucarrol's traceflow, does not have the visual.
+Small cross-platform traceroute tool that supports multi-path probing based on the functionality of rucarrol's traceflow.
 
 **Rucarrol's Traceflow**: https://github.com/rucarrol/traceflow
 
-Works on **Linux** without dependencies  
+Works on **Linux** without **Npcap**  
 Requires **Npcap** on **Windows**: [https://npcap.com/#download](https://npcap.com/#download)
+-   Must have support raw traffic and Wincap API comp mode
+
+![Npcap](docs/npcap%20installer%20pic.png)
 ---
 
 ## Python Example
